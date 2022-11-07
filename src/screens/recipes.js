@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext } from "react";
+import React from "react";
 import { FlatList, TouchableOpacity, SafeAreaView } from "react-native";
 import styled from "styled-components/native";
 import { ActivityIndicator } from "react-native-paper";
@@ -7,13 +7,12 @@ import { ActivityIndicator } from "react-native-paper";
 import { RecipeInfo } from "../components/recipe-card";
 import { useRecipe } from "../contexts/recipe-context";
 import { Search } from "../components/search";
+import { APP_PAGES } from "../constants/app-pages";
 
 
-
-
-const RestaurantList = styled(FlatList).attrs({
+const RecipeList = styled(FlatList).attrs({
   contentContainerStyle: {
-    padding: 16,
+    padding: 10,
   },
 })``;
 
@@ -23,10 +22,8 @@ const LoadingContainer = styled.View`
 `;
 
 
-export const RecipeList = () => {
+export const Recipes = ({ navigation }) => {
  const { recipes, loading } = useRecipe();
-  
- console.log(recipes)
 
   return (
     <>
@@ -36,15 +33,18 @@ export const RecipeList = () => {
             <ActivityIndicator size={50} animating={true} color="#F96163" />
           </LoadingContainer>
         )}
-         {/*   <Search /> */}
-         <Search />
-        <RestaurantList
+
+        <Search />
+        <RecipeList
           data={recipes}
           renderItem={({ item }) => (
-            <TouchableOpacity>
-              {/* <Spacer position="bottom" size="large"> */}
+            <TouchableOpacity 
+            onPress={() =>
+              navigation.navigate(APP_PAGES.RECIPE_DETAIL, {
+                recipe: item,
+              })
+            }>
                 <RecipeInfo recipe={item} />
-              {/* </Spacer> */}
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}

@@ -2,6 +2,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { Searchbar } from "react-native-paper";
+import { useRecipe } from "../contexts/recipe-context";
 
 // import { LocationContext } from "../../../services/location/location.context";
 
@@ -10,18 +11,22 @@ const SearchContainer = styled.View`
 `;
 
 export const Search = () => {
-//   const { keyword, search } = useContext(LocationContext);
-  const [recipe, setRecipe] = useState('');
+  const { search, onSearch } = useRecipe();
+  const [searchWord, setSearchWord] = useState(search);
   useEffect(() => {
-    setRecipe(recipe);
-  }, [recipe]);
+    setSearchWord(search);
+  }, [search]);
+
   return (
     <SearchContainer>
       <Searchbar
         placeholder="Search for a recipe"
-        value={recipe}
+        value={searchWord}
+        onSubmitEditing={() => {
+          onSearch(searchWord);
+        }}
         onChangeText={(text) => {
-            setRecipe(text);
+          setSearchWord(text);
         }}
       />
     </SearchContainer>
