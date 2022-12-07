@@ -7,16 +7,15 @@ import {
   FlatList,
   TouchableOpacity,
   SafeAreaView,
-  Image,
 } from 'react-native';
 import styled from 'styled-components/native';
-import { Card, Chip } from "react-native-paper";
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Card } from "react-native-paper";
 import { RecipeInfo } from "../components/recipe-card";
 
 import { useRecipe } from "../contexts/recipe-context";
 import { Search } from "../components/search";
 import { ScrollView } from 'react-native-gesture-handler';
+import { APP_PAGES } from '../constants/app-pages';
 
 
 const DashboardContainer = styled(View)`
@@ -86,7 +85,7 @@ const CardContainer = styled(TouchableOpacity)`
 
 
 
-export const Dashboard = () => {
+export const Dashboard = ({ navigation }) => {
   const { loading, recipes, randomRecipe } = useRecipe();
   return (
     <>
@@ -107,7 +106,7 @@ export const Dashboard = () => {
               <RecipeCardCover key={randomRecipe.id} source={{ uri: randomRecipe.image }} />
             </RandomCard>
             <TitleContainer>
-              <RecipeTitle>{randomRecipe.title}</RecipeTitle>
+              <RecipeTitle>{randomRecipe.name}</RecipeTitle>
             </TitleContainer>
           </RandomCardContainer>
 
@@ -117,7 +116,11 @@ export const Dashboard = () => {
             horizontal
             data={recipes}
             renderItem={({ item }) => (
-              <CardContainer>
+              <CardContainer onPress={() =>
+                navigation.navigate(APP_PAGES.RECIPE_DETAIL, {
+                  recipe: item,
+                })
+              }>
                   <RecipeInfo recipe={item} />
               </CardContainer>
             )}

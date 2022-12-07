@@ -12,7 +12,7 @@ import { APP_PAGES } from "../constants/app-pages";
 
 const RecipeList = styled(FlatList).attrs({
   contentContainerStyle: {
-    padding: 10,
+    padding: 16,
   },
 })``;
 

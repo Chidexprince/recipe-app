@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Image, ScrollView } from "react-native";
 import styled from "styled-components/native";
+import { APP_PAGES } from '../constants/app-pages';
+import { useAuth } from '../contexts/auth-context';
 
 const Container = styled.View`
   background: ${(props) => props.theme.colors.white};
@@ -86,37 +88,56 @@ const Link = styled.Text`
   color: ${(props) => props.theme.colors.primaryBg};
 `;
 
-export const Register = () => {
+const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  margin: ${(props) => props.theme.space[2]};
+`;
+
+export const Register = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { loading, error, registerUser } = useAuth();
+
     return (
       <>
         <SafeAreaView>
-        <ScrollView>
           <Container>
           <ImageContainer>
             <LoginImage source={require('../../assets/sign-up.png')} />
           </ImageContainer>
           
           <LoginContainer>
+          {loading && (
+            <LoadingContainer>
+              <ActivityIndicator size={50} animating={true} color="#F96163" />
+            </LoadingContainer>
+          )}
             <Title>Sign Up</Title>
-            <Label>Name</Label>
-            <Input placeholder="Enter your name" />
             <Label>Email</Label>
-            <Input placeholder="Enter your email" keyboardType="email-address" />
+            <Input 
+              placeholder="Enter your email" 
+              keyboardType="email-address"
+              value={email}
+              onChangeText={(e) => setEmail(e)}
+               />
             <Label>Password</Label>
-            <Input placeholder="Enter your password" secureTextEntry={true} />
-            <LoginButton>
+            <Input 
+              placeholder="Enter your password" 
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(e) => setPassword(e)} />
+            <LoginButton
+            onPress={() => registerUser(email, password)}>
               <ButtonText>Sign Up</ButtonText>
             </LoginButton>
-            <SocialButton>
-              <SocialText>Sign up with Google</SocialText>
-            </SocialButton>
             <LinkContainer>
-              <Text>Already have account? <Link>Sign in</Link></Text>
+              <Text>Already have account? <Link onPress={() =>
+                        navigation.navigate(APP_PAGES.LOGIN)
+                      }>Sign in</Link></Text>
             </LinkContainer>
           </LoginContainer>
-         
           </Container>
-          </ScrollView>
         </SafeAreaView>
       </>
     );

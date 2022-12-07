@@ -6,15 +6,27 @@ const getRecipes = async (recipe) => {
         method: 'GET',
         url: '/recipes/complexSearch',
         params: {
-            query: recipe,
+            name: recipe,
             instructionsRequired: 'true',
             addRecipeInformation: 'true'
         }
     }
     try {
         const response = await axios.request(options);
-        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
+const getRecipeById = async (recipeId) => {
+    const options = {
+        method: 'GET',
+        url: `/recipes/${recipeId}/information`,
+        params: {includeNutrition: 'true'},
+    }
+    try {
+        const response = await axios.request(options);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -28,7 +40,6 @@ const getRandomRecipe = async () => {
     }
     try {
         const response = await axios.request(options);
-        console.log(response.data);
 
         return response.data;
     } catch (error) {
@@ -43,7 +54,6 @@ const getSimilarRecipes = async (recipeId) => {
     }
     try {
         const response = await axios.request(options);
-        console.log(response.data);
 
         return response.data;
     } catch (error) {
@@ -53,5 +63,5 @@ const getSimilarRecipes = async (recipeId) => {
 
 
 export const RecipeService = {
-    getRecipes, getRandomRecipe, getSimilarRecipes
+    getRecipes, getRecipeById, getRandomRecipe, getSimilarRecipes
 }

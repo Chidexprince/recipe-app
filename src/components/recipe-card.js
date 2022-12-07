@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components/native";
 
-import { View, Image, Text } from "react-native";
+import { View, Text } from "react-native";
 import { Card } from "react-native-paper";
 import { Favourite } from "./favourite";
 import Icon from 'react-native-vector-icons/Ionicons';

@@ -11,7 +11,7 @@ import { APP_PAGES } from "../constants/app-pages";
 const Stack = createStackNavigator();
 
 export const AuthNavigator = () => (
-    <Stack.Navigator headerMode="none">
+    <Stack.Navigator screenOptions={{headerShown: false }}>
       <Stack.Screen name={APP_PAGES.ONBOARDING} component={Onboarding} />
       <Stack.Screen name={APP_PAGES.LOGIN} component={Login} />
       <Stack.Screen name={APP_PAGES.REGISTER} component={Register} />

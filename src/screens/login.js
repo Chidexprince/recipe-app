@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
 
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Image } from "react-native";
+import React, { useState } from 'react';
+import { Text, TextInput, TouchableOpacity, SafeAreaView } from "react-native";
 import styled from "styled-components/native";
+import { APP_PAGES } from '../constants/app-pages';
+import { useAuth } from "../contexts/auth-context";
 
 const Container = styled.View`
   background: ${(props) => props.theme.colors.white};
@@ -61,20 +63,6 @@ const ButtonText = styled.Text`
   color: ${(props) => props.theme.colors.white};
 `;
 
-const SocialButton = styled(TouchableOpacity)`
-  padding: ${(props) => props.theme.space[3]};
-  border: 2px solid ${(props) => props.theme.colors.secondaryBg};
-  border-radius: 20px;
-  background: ${(props) => props.theme.colors.white};
-  width: 100%;
-  align-items: center;
-  margin-top: ${(props) => props.theme.space[3]};
-`;
-
-const SocialText = styled.Text`
-  font-size: ${(props) => props.theme.fontSizes.body};
-  color: ${(props) => props.theme.colors.primaryText};
-`;
 
 const LinkContainer = styled.View`
   margin-top: ${(props) => props.theme.space[2]};
@@ -86,7 +74,17 @@ const Link = styled.Text`
   color: ${(props) => props.theme.colors.primaryBg};
 `;
 
-export const Login = () => {
+const LoadingContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  margin: ${(props) => props.theme.space[2]};
+`;
+
+export const Login = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { loading, error, loginUser, } = useAuth();
+
     return (
       <>
         <SafeAreaView>
@@ -95,24 +93,38 @@ export const Login = () => {
             <LoginImage source={require('../../assets/sign-in.png')} />
           </ImageContainer>
           <LoginContainer>
+          {loading && (
+            <LoadingContainer>
+              <ActivityIndicator size={50} animating={true} color="#F96163" />
+            </LoadingContainer>
+          )}
             <Title>Sign In</Title>
             <Label>Email</Label>
             <Input 
               placeholder="Enter your email"
               keyboardType="email-address" 
+              value={email}
+              onChangeText={(e) => setEmail(e)}
               />
             <Label>Password</Label>
             <Input 
               placeholder="Enter your password"
-              secureTextEntry={true} />
-            <LoginButton>
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(e) => setPassword(e)}
+               />
+            <LoginButton
+              onPress={() => loginUser(email, password)}>
               <ButtonText>Sign In</ButtonText>
             </LoginButton>
-            <SocialButton>
-              <SocialText>Sign in with Google</SocialText>
-            </SocialButton>
             <LinkContainer>
-              <Text>New to RecipQ? <Link>Sign up</Link></Text>
+              <Text>New to RecipQ? 
+                <Link onPress={() =>
+                        navigation.navigate(APP_PAGES.REGISTER)
+                      }>
+                  Sign up
+                </Link>
+              </Text>
             </LinkContainer>
           </LoginContainer>
           </Container>

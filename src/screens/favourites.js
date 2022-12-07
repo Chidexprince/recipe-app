@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext } from "react";
+import React from "react";
 import { FlatList, TouchableOpacity, SafeAreaView, Text } from "react-native";
 import styled from "styled-components/native";
 import Icon from 'react-native-vector-icons/Ionicons';

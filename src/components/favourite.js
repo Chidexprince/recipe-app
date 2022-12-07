@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components/native";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useFavourite } from "../contexts/favourite-context";
 

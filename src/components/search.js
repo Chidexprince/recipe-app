@@ -1,10 +1,9 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { Searchbar } from "react-native-paper";
 import { useRecipe } from "../contexts/recipe-context";
 
-// import { LocationContext } from "../../../services/location/location.context";
 
 const SearchContainer = styled.View`
   padding: ${(props) => props.theme.space[3]};

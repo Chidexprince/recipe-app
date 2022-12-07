@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Image } from "react-native";
+import { TouchableOpacity, SafeAreaView, Image } from "react-native";
 import styled from "styled-components/native";
+import { APP_PAGES } from '../constants/app-pages';
 
 const Container = styled.View`
     flex: 1;
@@ -54,7 +55,7 @@ const ButtonText = styled.Text`
 
 
 
-export const Onboarding = () => {
+export const Onboarding = ({ navigation }) => {
     return (
       <>
         <SafeAreaView>
@@ -66,7 +67,10 @@ export const Onboarding = () => {
                 <ActionContainer>
                     <Title>Get Started</Title>
                     <SubTitle>Learn all the recipes you need to make great dishes.</SubTitle>
-                    <OnboardButton>
+                    <OnboardButton
+                     onPress={() =>
+                        navigation.navigate(APP_PAGES.LOGIN)
+                      }>
                         <ButtonText>Get Started</ButtonText>
                     </OnboardButton>
                 </ActionContainer>

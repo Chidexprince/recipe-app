@@ -12,6 +12,7 @@ const RecipeProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
     const [randomRecipe, setRandomRecipe] = useState([]);
     const [similarRecipes, setSimilarRecipes] = useState([]);
+    const [recipe, setRecipe] = useState({});
 
     useEffect(() => {
         getRandomRecipe();
@@ -24,14 +25,21 @@ const RecipeProvider = ({children}) => {
 
     const onSearch = (search) => {
         setLoading(true);
-        setSearch(search)
+        setSearch(search);
     }
 
     const getRecipes = async () => {
         const recipeList = await RecipeService.getRecipes(search);
-        console.log(recipeList);
         setLoading(false);
+        console.log(recipeList)
         setRecipes(recipeList.results);
+    }
+
+    const getRecipeById = async (recipeId) => {
+        setLoading(true);
+        const recipe = await RecipeService.getRecipeById(recipeId);
+        setRecipe(recipe);
+        setLoading(false);
     }
 
     const getRandomRecipe = async () => {
@@ -45,7 +53,7 @@ const RecipeProvider = ({children}) => {
     }
 
     return (
-        <RecipeContext.Provider value={{recipes, loading, search, randomRecipe, recipeId, similarRecipes, onSearch}}>
+        <RecipeContext.Provider value={{recipe, recipes, loading, search, randomRecipe, recipeId, similarRecipes, getRecipeById, onSearch}}>
             {children}
         </RecipeContext.Provider>
     );
